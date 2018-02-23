@@ -12,7 +12,7 @@ module.exports = function(RED) {
         } else {
             this.environment = n.environment;
         }
-
+        this.allowMsgCredentials = n.allowMsgCredentials;
         this.username = n.username;
         this.password = n.password;
         // Optional reading of username/password from environment

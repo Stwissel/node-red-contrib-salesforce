@@ -44,7 +44,6 @@
             return this.name || this.username + ' connection';
         },
         oneditprepare: function() {
-            debugger;
             setTimeout(function() {
                 var jqCurDialog = $("[aria-describedby='node-config-dialog']:visible");
                 var dialogWidth = ($(window).width() - 100);
@@ -59,7 +58,7 @@
             }, 0);
 
             $("#node-config-input-useEnvCredentials").change(function() {
-                $(".credentials").toggle(!this.checked);
+                $("#credentials").toggle(!this.checked);
             });
 
             $("#node-config-input-environment").change(function() {
@@ -108,6 +107,8 @@
           <option value="sandbox">Sandbox</option>
           <option value="customproduction">Production (Custom)</option>
           <option value="customsandbox">Sandbox (Custom)</option>
+          <option value="custommarketing">Marketing Cloud (Custom)</option>
+          <option value="customcommerce">Commerce Cloud (Custom)</option>
         </select>
     </div>
     <div class="form-row" id="node-config-rown-poturl">
@@ -115,32 +116,30 @@
         <input type="text" id="node-config-input-poturl" />
     </div>
     <div class="form-row">
-        <label for="node-config-input-useEnvCredentials">
-        	<input type="checkbox" id="node-config-input-useEnvCredentials" />
-        	<i class="fa fa-user"></i> Allow credentials in msg object
-    	</label>
+        <input type="checkbox" id="node-config-input-allowMsgCredentials" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-config-input-allowMsgCredentials" style="width: auto; white-space:nowrap;">Allow credentials in msg object</label>
     </div>
     <div class="form-row">
-        <label for="node-config-input-useEnvCredentials">
-        	<input type="checkbox" id="node-config-input-useEnvCredentials" />
-        	<i class="fa fa-user"></i> Use environment for credentials
-    	</label>
+        <input type="checkbox" id="node-config-input-useEnvCredentials" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-config-input-useEnvCredentials" style="width: auto; white-space:nowrap;">Use environment variables for credentials</label>
     </div>
-    <div class="form-row credentials" style="white-space:nowrap">
-        <label for="node-config-input-consumerKey"><i class="fa fa-key"></i> Consumer Key</label>
-        <input type="text" id="node-config-input-consumerKey" />
-    </div>
-    <div class="form-row credentials" style="white-space:nowrap">
-        <label for="node-config-input-consumerSecret"><i class="fa fa-user-secret"></i> Consumer Secret</label>
-        <input type="password" id="node-config-input-consumerSecret" />
-    </div>
-    <div class="form-row credentials">
-        <label for="node-config-input-username"><i class="fa fa-user"></i> Username</label>
-        <input type="text" id="node-config-input-username" />
-    </div>
-    <div class="form-row credentials">
-        <label for="node-config-input-password"><i class="fa fa-lock"></i> Password</label>
-        <input type="password" id="node-config-input-password" />
+    <div id="credentials">
+        <div class="form-row credentials" style="white-space:nowrap">
+            <label for="node-config-input-consumerKey"><i class="fa fa-key"></i> Consumer Key</label>
+            <input type="text" id="node-config-input-consumerKey" />
+        </div>
+        <div class="form-row credentials" style="white-space:nowrap">
+            <label for="node-config-input-consumerSecret"><i class="fa fa-user-secret"></i> Consumer Secret</label>
+            <input type="password" id="node-config-input-consumerSecret" />
+        </div>
+        <div class="form-row credentials">
+            <label for="node-config-input-username"><i class="fa fa-user"></i> Username</label>
+            <input type="text" id="node-config-input-username" />
+        </div>
+        <div class="form-row credentials">
+            <label for="node-config-input-password"><i class="fa fa-lock"></i> Password</label>
+            <input type="password" id="node-config-input-password" />
+        </div>
     </div>
 </script>
 
@@ -155,7 +154,9 @@
         </li>
         <li><b>Instance URL</b> (only shows for Environment "custom"): URL to your Salesforce instance (optional). Use it when you get "invalid client id" errors when connecting to Salesforce or when you use a ScratchOrg
         </li>
-        <li><b>Allow credentials in msg object</b>: With this option enabled the configuration is checking for the <code>sf</code> property in the msg object and retrieves username, password, ConsumerKey and ConsumerSecret from it. (Thx to benariss for the idea/code)</li>
+        <li><b>Allow credentials in msg object</b>: With this option enabled the configuration is checking for the <code>sf</code> property in the msg object and retrieves username, password, ConsumerKey and ConsumerSecret from it. (Thx to benariss for the
+            idea/code)
+        </li>
         <li><b>Use environment credentials</b>: Ignores the credential entries below and tries to read environment variables (e.g from a Heroku deployment). The variables are the name of this node and _ConsumerKey, _ConsumerSecret, _UserName and _Password.
             So if this Node is called <code>SFTest</code>, it will look for:
             <ul>

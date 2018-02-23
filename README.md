@@ -5,71 +5,90 @@
 A set of [Node-RED](http://www.nodered.org) nodes to interact with Salesforce and Force.com.
 
 ## Install
--------
 
 Run the following command in the root directory of your Node-RED install
 
 ```
-npm install node-red-contrib-salesforce
+npm install -s node-red-contrib-salesforce
 ```
 
 ## Usage
 
-Each node uses a connection object to hold and share Salesforce connected app settings (consumer key, consumer secret, username, etc.). This determines the org that each node operates against.
-
-The credential fields can be left blank and passed in the message (msg.sf), this allows you to store them outside of the flow so that they will not be exposed when exporting it.
+Each node uses a connection object to hold and share Salesforce connected app settings (consumer key, consumer secret, username, etc.). This determines the org that each node operates against. Credential information can alternatively been supplied by environment variables (Heroku, Bluemix, Azure friendly) or in the msg object.
 
 ### SOQL
 
-<p>Executes a SOQL query.</p>
-<pre>
+Executes a SOQL query
+
+```
 select id, name
 from contact
 limit 2
-</pre>
-<p>The resulting message has the following properties:
-<ul><li>msg.payload.size - the number of records returned from the query.</li>
-<li>msg.payload.records - the array of records returned from the query.</li>
-</ul></p>
-<p>The query can be configured in the node, however if left blank, the query should be set in an incoming message on <code>msg.query</code>.</p>
-<p>By default the query will return the first 2,000 records from the query result.  If you wish to return the full result set then tick the 'Fetch all result records' checkbox.</p>
-<p>See the <a href="https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl">Salesforce SOQL documentation</a> for more information.</p>
+```
 
-<h3>SOSL</h3>
+The resulting message has the following properties:
 
-<p>Executes a SOSL query.</p>
-<pre>
+- msg.payload.size - the number of records returned from the query
+- msg.payload.records - the array of records returned from the query.
+
+The query can be configured in the node, however if left blank, the query should be set in an incoming message on `msg.query`. See the [Salesforce SOQL documentation](https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl) for more information.
+
+### SOSL
+
+Executes a SOSL query
+
+```
 FIND {united*} IN ALL FIELDS
 RETURNING Account (Id, Name), Contact (Id, Name)
-</pre>
-<p>The resulting message has the following properties:
-<ul><li>msg.payload.size - the number of records returned from the query.</li>
-<li>msg.payload.records - the array of records returned from the query.</li>
-</ul></p>
-<p>The query can be configured in the node, however if left blank, the query should be set in an incoming message on <code>msg.query</code>.</p>
-<p>See the <a href="https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_sosl.htm">Salesforce SOSL documentation</a> for more information.</p>
+```
 
-<h3>DML</h3>
+The resulting message has the following properties:
 
-<p>Executes an insert, update, upsert or delete DML statement.</p>
-<p>The action and object can be configured in the node, however if left blank, the following should be set in an incoming message:<ul><li><code>msg.action</code> - the DML action to perform</li><li><code>msg.object</code> - the sObject for the DML action</li></ul></p>
-<p><b>Insert Action</b></p>
-<p>This action inserts the contents of <code>msg.payload</code> and returns the newly created ID.</p>
-<pre>{
+- msg.payload.size - the number of records returned from the query.
+- msg.payload.records - the array of records returned from the query.
+
+The query can be configured in the node, however if left blank, the query should be set in an incoming message on `msg.query`. See the [Salesforce SOSL documentation](https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_sosl.htm)or more information.
+
+### DML
+
+Executes an insert, update, upsert or delete DML statement.
+
+The action and object can be configured in the node, however if left blank, the following should be set in an incoming message:
+
+- `msg.action`  - the DML action to perform
+- `msg.object`  - the sObject for the DML action
+
+#### Insert Action
+
+This action inserts the contents of <code>msg.payload</code> and returns the newly created ID.
+
+```
+{
 firstname: "Nikola",
 lastname: "Tesla"
-}</pre>
-<p><br/><b>Update Action</b></p>
-<p>This action updates the specified record with the the contents of <code>msg.payload</code>. It assumes that the payload contains an <code>id</code> property with the id of the record to be updated.</p>
-<pre>{
+}
+```
+
+#### Update Action
+
+This action updates the specified record with the the contents of <code>msg.payload</code>. It assumes that the payload contains an `id` property with the id of the record to be updated.
+
+```
+{
 id: "00337000002uFbW",
 firstname: "Nikola",
 lastname: "Tesla"
-}</pre>
-<p><br/><b>Upsert Action</b></p>
-<p>The upsert action matches contents of the <code>msg.payload</code> with existing records by comparing values of one field. If you don’t specify a field when calling this action, the operation uses the id value in the <code>msg.payload</code> to match with existing records to update. Alternatively, you can specify a field to use for matching in <code>msg.externalId</code>. This field must be marked as external ID. If a matching record is not found, a new records is inserted.</p>
-<p>Sample <code>msg.payload</code> to be used with an external id.</p>
-<pre>{
+}
+```
+
+#### Upsert Action
+
+The upsert action matches contents of the <code>msg.payload</code> with existing records by comparing values of one field. If you don’t specify a field when calling this action, the operation uses the id value in the `msg.payload<` to match with existing records to update. Alternatively, you can specify a field to use for matching in `msg.externalId`. This field must be marked as external ID. If a matching record is not found, a new records is inserted.
+
+Sample `msg.payload` to be used with an external id.
+
+```
+{
 firstname: "Nikola",
 lastname: "Tesla"
 }</pre>
@@ -77,9 +96,13 @@ lastname: "Tesla"
 <pre>{
 field: "Ext_ID_c",
 value: "12345"
-}</pre>
-<p>If record(s) are updated, the resulting payload will resemble:</p>
-<pre>{
+}
+```
+
+If record(s) are updated, the resulting payload will resemble:
+
+```
+{
 "payload": {
 "success": true,
 "object": "contact",
@@ -89,46 +112,70 @@ value: "12345"
 },
 "action": "update"
 }
-}</pre>
-<p>If a new record is inserted, the resulting payload will resemble the following containing the id of the newly created record:</p>
-<pre>{
+}
+```
+
+If a new record is inserted, the resulting payload will resemble the following containing the id of the newly created record:
+
+```
+{
 "payload": {
 "success": true,
 "object": "contact",
 "id": "00337000002uwUVAAY",
 "action": "insert"
 }
-}</pre>
-<p><br/><b>Delete Action</b></p>
-<p>This action deletes the record specified by the id property in <code>msg.payload</code>.</p>
-<pre>{
+}
+```
+
+#### Delete Action
+
+This action deletes the record specified by the id property in <code>msg.payload</code>.
+
+```
+{
 "id": "00337000002uwUVAAY"
-}</pre>
-<p>See the <a href="https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_dml_section.htm#apex_dml_insert">Apex DML Operations</a> for more information.</p>
+}
+```
 
-<h3>Streaming</h3>
+See the [Apex DML Operations](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_dml_section.htm#apex_dml_insert) for more information.
 
-<p>Creates a client that subscribes to a PushTopic for the Streaming API.</p>
-<p>When the client receives a message it sends `msg.payload` with the following:
-<ul><li>msg.payload.event - the information on the event that was received.</li>
-<li>msg.payload.sobject - the sobject information received.</li>
-</ul></p>
-<p>Assuming the PushTopic was created with the query <code>SELECT Id, Name FROM Contact</code>, then a resulting message would look like:</p>
-<pre>{
+### Streaming
+
+Creates a client that subscribes to a PushTopic for the Streaming API.
+
+Subscription starts once a msg is received as input. The msg object payload gets ignored, but the following properties are used when present:
+
+- `action`: `subscribe` or `unsubscribe` When no action is configured it defaults to subscribe. An unknown value for action is interpreted as unsubscribe
+- `topic`: the subscription topic to listen to, defaults to the one from configuration
+- `sf` : object with Salesforce credentials: `username`, `password`, `clientSecret`, `clientToken`. Can have just one of these. Uses configuration values as default
+
+When the client receives a message it sends `msg.payload` with the following:
+
+- `msg.payload.event` - the information on the event that was received.
+- `msg.payload.sobject` - the sobject information received.
+
+Assuming the PushTopic was created with the query `SELECT Id, Name FROM Contact`, then a resulting message would look like:
+
+```{
 "event": {
 "type": "updated", "createdDate": "2015-07-31T18:38:21.000+0000"
 },
 "sobject": {
 "Name": "Nikola Tesla", "Id": "a0037000001pplrZZZ"
 }
-}</pre>
-<p>See the <a href="https://developer.salesforce.com/docs/atlas.en-us.api_streaming.meta/api_streaming/quick_start_workbench.htm">Quick Start Using Workbench</a> to get started or the <a href="https://developer.salesforce.com/docs/atlas.en-us.api_streaming.meta/api_streaming/">Streaming API documentation</a> for complete details.</p>
+}
+```
 
-<h3>OBM</h3>
+See the [Quick Start Using Workbench](https://developer.salesforce.com/docs/atlas.en-us.api_streaming.meta/api_streaming/quick_start_workbench.htm) to get started or the [Streaming API documentation](https://developer.salesforce.com/docs/atlas.en-us.api_streaming.meta/api_streaming/) for complete details.
 
-<p>When used with an http in node, parses the XML from a Salesforce Outbound Message to a JSON object.</p>
-<p>The resulting <code>msg.payload</code> should look something like:
-<pre>{
+### Outbound Messages (OBM)
+
+When used with an http in node, parses the XML from a Salesforce Outbound Message to a JSON object.
+The resulting `msg.payload` should look something like:
+
+```
+{
 "organizationId": "00D37000000PdLZAE1",
 "actionId": "04k370000008OrqZZE",
 "sobject": {
@@ -139,7 +186,7 @@ value: "12345"
 "lastname": "Tesla"
 },
 "sessionId": "00D37000000PdLB!"
-}</pre>
-</p>
-<p>Connect this node downstream from a POST http input node to parse the XML received from an Outbound Message call from Salesforce. Use the URL from the http in node for the Endpoint URL for your Outbound Message.</p>
-<p>See the <a href="https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_om_outboundmessaging_setting_up.htm">Salesforce Setting Up Outbound Messaging documentation</a> for more information.</p>
+}
+```
+
+Connect this node downstream from a POST http input node to parse the XML received from an Outbound Message call from Salesforce. Use the URL from the http in node for the Endpoint URL for your Outbound Message. See the [Salesforce Setting Up Outbound Messaging documentation](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_om_outboundmessaging_setting_up.htm) for more information.

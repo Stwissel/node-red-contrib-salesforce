@@ -20,14 +20,13 @@
                 required: true
             }
         },
-        inputs: 0,
+        inputs: 1,
         outputs: 1,
         icon: "salesforce.png",
         label: function() {
             return this.name || 'streaming';
         },
         oneditsave: function() {
-            //debugger;
             this.topicType = $("#node-config-input-topicType").val();
         }
     });
@@ -64,7 +63,14 @@
         <li>Streaming (Push Topic): Listen to changes in sObjects</li>
         <li>Streaming (Generic): Listen to generic Push Topics (deprecated)</li>
     </ul>
-    <p>When the client receives a message it sends `msg.payload` with the following:
+    <p>Subscription starts only when an incoming message is received once. The following `msg` properties are supported:</p>
+    <ul>
+        <li><code>action</code> with the value <code>subscribe</code> or <code>unsubscribe</code> (default: <code>subscribe</code>): start or stop a subscription</li>
+        <li><code>topic</code> the topic to subscribe to. Default is to use the topic from the config</li>
+        <li><code>sf</code> object containing: <code>username</code>, <code>password</code>, <code>consumerKey</code> and <code>consumerSecret</code>. When the configuration allows it (checkbox "allow message credentials"), these values take priority over
+            the configuration values). They don't have to be present together, they are applied individually</li>
+    </ul>
+    <p>When the client receives a message it sends <code>msg.payload</code> with the following:
         <ul>
             <li>msg.payload.event - the information on the event that was received.</li>
             <li>msg.payload.sobject - the sobject information received.</li>
