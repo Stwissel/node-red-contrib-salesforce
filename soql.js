@@ -5,13 +5,13 @@ module.exports = function(RED) {
         RED.nodes.createNode(this, config);
         this.connection = RED.nodes.getNode(config.connection);
         const node = this;
-        var query = '';
         this.on('input', function(msg) {
             // show initial status of progress
             node.status({ fill: 'green', shape: 'ring', text: 'connecting....' });
 
             // use msg query if node's query is blank
             // TODO: should the msg.query ALWAYS overwrite the config query of existent?
+            var query = '';
             if (msg.hasOwnProperty('query') && config.query === '') {
                 query = msg.query;
             } else {
