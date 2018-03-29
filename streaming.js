@@ -1,6 +1,6 @@
 module.exports = function(RED) {
     const nforce = require('./nforce_wrapper');
-    //array to back-up the node - to disconnect the streaming client when redeploying flow
+    //array to back-up the node & disconnect the streaming client when redeploying flow
     const clients = {};
     function Streaming(config) {
         const node = this;
