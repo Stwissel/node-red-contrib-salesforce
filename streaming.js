@@ -1,5 +1,7 @@
-const nforce = require('./nforce_wrapper');
-
+module.exports = function(RED) {
+    const nforce = require('./nforce_wrapper');
+    //array to back-up the node - to disconnect the streaming client when redeploying flow
+    const clients = {};
     function Streaming(config) {
         const node = this;
         RED.nodes.createNode(node, config);
@@ -7,6 +9,16 @@ const nforce = require('./nforce_wrapper');
         node.subscriptionActive = false;
         node.client = {}; // The client
 
+        // back-up the node and disconnect/clean-up when redeploying flow to avoid duplicated subscription 
+        if(!clients[node.id]){
+            clients[node.id] = node;
+        }else{
+            if(clients[node.id].client.disconnect){
+                clients[node.id].client.disconnect();
+                clients[node.id] = node;
+            }
+        }
+        
         node.status({ fill: 'gray', shape: 'ring', text: 'idle' });
 
         this.on('input', function(msg) {
