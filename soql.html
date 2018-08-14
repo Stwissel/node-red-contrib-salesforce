@@ -64,7 +64,7 @@
     <p>Otherwise the resulting message has the following properties:
         <ul>
             <li>msg.payload.size - the number of records returned from the query.</li>
-            <li>msg.payload.records - the array of javascript nForce objects returned from the query. The nforce objects are useful for doing updates etc., as they have dirty checking and are already structured for an DML update, but do not match what Node-Red debug window. </li>
+            <li>msg.payload.records - the array of javascript nForce objects returned from the query. The nforce objects are useful for doing updates etc., as they have dirty checking and are already structured for an DML update, but do not match what Node-Red debug window shows. </li>
         </ul>
     </p>
     <p>The query can be configured in the node, however if left blank, the query should be set in an incoming message on <code>msg.query</code>.</p>
