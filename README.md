@@ -27,8 +27,8 @@ select id, name
 from contact
 limit 2
 ```
-
-The resulting message has the following properties:
+If "Return JSON only" is selected, message.payload contains an array of result objects.
+Otherwise the resulting message has the following properties:
 
 - msg.payload.size - the number of records returned from the query
 - msg.payload.records - the array of records returned from the query.

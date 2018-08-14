@@ -16,6 +16,9 @@
             },
             fetchAll: {
                 value: false
+            },
+            returnJSON: {
+                value: false
             }
         },
         inputs: 1,
@@ -44,6 +47,10 @@
         <label for="node-input-fetchAll"><i class="fa fa-list"></i> Fetch all result records</label>
         <input type="checkbox" id="node-input-fetchAll" style="position:absolute;left:20px" />
     </div>
+    <div class="form-row" style="white-space:nowrap">
+        <label for="node-input-returnJSON"><i class="fa fa-list"></i> Return JSON only</label>
+        <input type="checkbox" id="node-input-returnJSON" style="position:absolute;left:20px" />
+    </div>
 </script>
 
 <script type="text/x-red" data-help-name="soql">
@@ -52,11 +59,12 @@
   select id, name
   from contact
   limit 2
-</pre>
-    <p>The resulting message has the following properties:
+    </pre>
+    <p>If "Return JSON only" is selected, message.payload contains an array of result objects.</p>
+    <p>Otherwise the resulting message has the following properties:
         <ul>
             <li>msg.payload.size - the number of records returned from the query.</li>
-            <li>msg.payload.records - the array of records returned from the query.</li>
+            <li>msg.payload.records - the array of javascript nForce objects returned from the query. The nforce objects are useful for doing updates etc., as they have dirty checking and are already structured for an DML update, but do not match what Node-Red debug window. </li>
         </ul>
     </p>
     <p>The query can be configured in the node, however if left blank, the query should be set in an incoming message on <code>msg.query</code>.</p>

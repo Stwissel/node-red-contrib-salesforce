@@ -44,13 +44,22 @@ module.exports = function(RED) {
             org
                 .authenticate({ username: this.connection.username, password: this.connection.password })
                 .then(function() {
-                    return org.query({ fetchAll: config.fetchAll, query: query });
+                    return org.query({ fetchAll: config.fetchAll, query: query }).error(function(err) {
+                        node.status({ fill: 'red', shape: 'dot', text: 'Error!' });
+                        node.error(err, msg);
+                    });
                 })
                 .then(function(results) {
-                    msg.payload = {
-                        size: results.totalSize,
-                        records: results.records
-                    };
+                    if (config.returnJSON) {
+                        msg.payload = results.records.map(function (record) {
+                            return record.toJSON();
+                        });
+                    } else {
+                        msg.payload = {
+                            size: results.totalSize,
+                            records: results.records
+                        };
+                    }
                     node.send(msg);
                     node.status({});
                 })
