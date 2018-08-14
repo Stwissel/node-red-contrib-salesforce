@@ -31,7 +31,7 @@ If "Return JSON only" is selected, message.payload contains an array of result o
 Otherwise the resulting message has the following properties:
 
 - msg.payload.size - the number of records returned from the query
-- msg.payload.records - the array of javascript nForce objects returned from the query. The nforce objects are useful for doing updates etc., as they have dirty checking and are already structured for an DML update, but do not match what Node-Red debug window.
+- msg.payload.records - the array of javascript nForce objects returned from the query. The nforce objects are useful for doing updates etc., as they have dirty checking and are already structured for an DML update, but do not match what Node-Red debug window shows.
 
 The query can be configured in the node, however if left blank, the query should be set in an incoming message on `msg.query`. See the [Salesforce SOQL documentation](https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl) for more information.
 
