@@ -20,12 +20,19 @@ const createConnection = function(configOptionsRaw, msg) {
   if (configOptions.apiversion) {
     orgOptions.apiVersion = configOptions.apiversion;
   }
-
+  orgOptions.clientId = configOptions.consumerKey;
+  //console.log( 'configOptions: ' + JSON.stringify(configOptions,null,2) );
+  //console.log( 'OrgOptions: ' + JSON.stringify(orgOptions,null,2) );
   const connectionResult = nforce8.createConnection(orgOptions);
+  //console.log('ConnectionResult: ' + connectionResult);
+  connectionResult.clientSecret = configOptions.consumerSecret;
   const result = {
     connection: connectionResult,
     config: configOptions
   };
+  //console.log( 'Connection: ' + JSON.stringify(result.connection,null,2) );
+  //console.log( 'Config: ' + JSON.stringify(result.config,null,2) );
+
 
   return result;
 };
@@ -34,6 +41,7 @@ const createConnection = function(configOptionsRaw, msg) {
 // TODO: Token authentication for Salesforce roundtrip
 const authenticate = function(org, configOptions) {
   // TODO: Check if we have a incomign session
+  //console.log( 'Org: ' + org );
   return org.authenticate(configOptions);
 };
 
@@ -43,6 +51,8 @@ const authenticate = function(org, configOptions) {
  * @param {*} msg the actual incoming message that might contain identity information
  */
 const getConfig = function(configOptions, msg) {
+  //console.log( 'ConfigOptions: ' + JSON.stringify(configOptions) );
+  //console.log( 'Msg: ' + msg );
   configOptions = configOptions || {};
   const connectionOptionResult = Object.assign({}, configOptions);
   //  Check if  credentials from message overwrite credentials from config
@@ -63,6 +73,8 @@ const getConfig = function(configOptions, msg) {
     }
   }
 
+  //console.log('consumerKey: ' + connectionOptionResult.consumerKey);
+  //console.log('consumerSecret: ' + connectionOptionResult.consumerSecret);
   return connectionOptionResult;
 };
 
