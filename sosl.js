@@ -17,7 +17,7 @@ module.exports = function (RED) {
 
             // create connection object
             const orgResult = nforce.createConnection(this.connection);
-            const org = orgResult.org;
+            const org = orgResult.connection;
 
 
             // auth and run query

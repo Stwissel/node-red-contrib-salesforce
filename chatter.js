@@ -33,10 +33,10 @@ module.exports = function (RED) {
 
             // auth and insert Feed Item
             nforce
-                .authenticate(orgResult.org, orgResult.config)
+                .authenticate(orgResult.connection, orgResult.config)
                 .then(result => {
                     const sobj = { sobject: payload };
-                    return orgResult.org.insert(sobj)
+                    return orgResult.connection.insert(sobj)
                         .catch(err => {
                             node.status({ fill: 'red', shape: 'dot', text: 'Error:' + e.message });
                             node.error(err, msg);

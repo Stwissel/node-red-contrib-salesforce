@@ -21,7 +21,7 @@ module.exports = function(RED) {
 
       // Auth and run DML
       nforce
-        .authenticate(orgResult.org, orgResult.config)
+        .authenticate(orgResult.connection, orgResult.config)
         .then((oauth) => {
           let dmlResult;
           const org = orgResult.org;
