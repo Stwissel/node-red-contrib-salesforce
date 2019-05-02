@@ -1,53 +1,53 @@
 {
-    "name": "node-red-contrib-salesforce",
-    "version": "0.6.0-alpha",
-    "description": "A set of Node-RED nodes to interact with Salesforce and Force.com.",
-    "author": {
-        "name": "Jeff Douglas",
-        "url": "http://blog.jeffdouglas.com"
+  "name": "node-red-contrib-salesforce",
+  "version": "0.6.1-alpha",
+  "description": "A set of Node-RED nodes to interact with Salesforce and Force.com.",
+  "author": {
+    "name": "Jeff Douglas",
+    "url": "http://blog.jeffdouglas.com"
+  },
+  "contributors": [
+    {
+      "name": "Stephan H. Wissel",
+      "url": "https://wissel.net",
+      "email": "stephan@wissel.net"
     },
-    "contributors": [
-        {
-            "name": "Stephan H. Wissel",
-            "url": "https://wissel.net",
-            "email": "stephan@wissel.net"
-        },
-        {
-            "name": "Srikanth Ramakrishnan",
-            "email": "srikanth.r@salesforce.com"
-        }
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Stwissel/node-red-contrib-salesforce"
-    },
-    "keywords": [
-        "node-red",
-        "salesforce",
-        "forcedotcom",
-        "Heroku"
-    ],
-    "node-red": {
-        "nodes": {
-            "soql": "soql.js",
-            "sosl": "sosl.js",
-            "dml": "dml.js",
-            "chatter": "chatter.js",
-            "streaming": "streaming.js",
-            "obm": "obm.js",
-            "connection-config": "connection-config.js"
-        }
-    },
-    "license": "MIT",
-    "dependencies": {
-        "faye": "^1.2.4",
-        "nforce8": "^2.0.6",
-        "xml2js": "^0.4.19"
-    },
-    "scripts": {
-        "test": "echo \"Shame: no test specified\" && exit 0"
-    },
-    "publishConfig": {
-        "access": "public"
+    {
+      "name": "Srikanth Ramakrishnan",
+      "email": "srikanth.r@salesforce.com"
     }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Stwissel/node-red-contrib-salesforce"
+  },
+  "keywords": [
+    "node-red",
+    "salesforce",
+    "forcedotcom",
+    "Heroku"
+  ],
+  "node-red": {
+    "nodes": {
+      "soql": "soql.js",
+      "sosl": "sosl.js",
+      "dml": "dml.js",
+      "chatter": "chatter.js",
+      "streaming": "streaming.js",
+      "obm": "obm.js",
+      "connection-config": "connection-config.js"
+    }
+  },
+  "license": "MIT",
+  "dependencies": {
+    "faye": "^1.2.4",
+    "nforce8": "^2.0.6",
+    "xml2js": "^0.4.19"
+  },
+  "scripts": {
+    "test": "echo \"Shame: no test specified\" && exit 0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }

@@ -21,10 +21,7 @@ const createConnection = function(configOptionsRaw, msg) {
     orgOptions.apiVersion = configOptions.apiversion;
   }
   orgOptions.clientId = configOptions.consumerKey;
-  //console.log( 'configOptions: ' + JSON.stringify(configOptions,null,2) );
-  //console.log( 'OrgOptions: ' + JSON.stringify(orgOptions,null,2) );
   const connectionResult = nforce8.createConnection(orgOptions);
-  //console.log('ConnectionResult: ' + connectionResult);
   connectionResult.clientSecret = configOptions.consumerSecret;
   const result = {
     connection: connectionResult,
