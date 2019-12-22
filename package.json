@@ -58,7 +58,7 @@
     "node-red": "^1.0.0",
     "node-red-node-test-helper": "^0.2.2",
     "should": "^13.2.3",
-    "sinon": "^7.3.2",
+    "sinon": "^8.0.0",
     "supertest": "^4.0.2"
   }
 }
