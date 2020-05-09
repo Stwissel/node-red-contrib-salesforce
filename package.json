@@ -41,7 +41,7 @@
   "license": "MIT",
   "dependencies": {
     "faye": "^1.2.4",
-    "nforce8": "2.0.11",
+    "nforce8": "2.0.12",
     "xml2js": "^0.4.23"
   },
   "scripts": {
