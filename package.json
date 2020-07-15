@@ -40,12 +40,15 @@
   },
   "license": "MIT",
   "dependencies": {
-    "faye": "^1.2.4",
-    "nforce8": "2.0.11",
-    "xml2js": "^0.4.23"
+    "faye": "^1.2.5",
+    "nforce8": "2.0.12",
+    "xml2js": "^0.4.23",
+    "snyk": "^1.362.0"
   },
   "scripts": {
-    "test": "mocha \"test/**/*_spec.js\""
+    "test": "mocha \"test/**/*_spec.js\"",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "publishConfig": {
     "access": "public"
@@ -60,5 +63,6 @@
     "should": "^13.2.3",
     "sinon": "^8.0.1",
     "supertest": "^4.0.2"
-  }
+  },
+  "snyk": true
 }
